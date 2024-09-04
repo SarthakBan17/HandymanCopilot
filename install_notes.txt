@@ -1,0 +1,16 @@
+
+virtualenv handyman-autogen-ui
+source handyman-autogen-ui/bin/activate
+
+pip install pyautogen
+pip install "fastapi[standard]"
+
+git clone -b handyman-chat-ui https://github.com/hisudha/handyman-copilot.git
+
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n 18 
+
+cd handyman-copilot/react-frontend
+npm install
+npm run dev
