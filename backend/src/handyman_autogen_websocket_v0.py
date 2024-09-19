@@ -122,7 +122,7 @@ html = """
             var ws = new WebSocket("ws://localhost:8080/ws");
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
-                // var message = document.createElement('li'     )
+                // var message = document.createElement('li')
                 var content = document.createTextNode(event.data)
                 messages.appendChild(content)
                 // messages.appendChild(message) 
@@ -172,7 +172,10 @@ async def start_uvicorn() -> None:
         logger.info("Shutting down server")
 
 
-if __name__ == "__main__":
-    # set the log level to INFO
-    logger.setLevel("INFO")
-    asyncio.run(start_uvicorn())
+# if __name__ == "__main__":
+#     # set the log level to INFO
+#     logger.setLevel("INFO")
+#     asyncio.run(start_uvicorn())
+
+# run this
+#  uvicorn main:app --reload --host 0.0.0.0 --port 8000
