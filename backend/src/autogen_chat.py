@@ -2,23 +2,18 @@ import autogen
 from user_proxy_webagent import UserProxyWebAgent
 import asyncio
 
-# config_list = [
-#     {
-#         "model": "gpt-3.5-turbo",
-#     }
-# ]
 
 apiKey = "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"
 config_list = [{"model": "gpt-4o", "api_key": apiKey}]
 
 llm_config_assistant = {
-    "model":"gpt-3.5-turbo",
+    "model":"gpt-4o",
     "temperature": 0,
     "config_list": config_list,
         "functions": [
         {
             "name": "ask_expert",
-            "description": "Handyman Expert, when provided with issue, he provides possible causes for the issue",
+            "description": "Handyman Expert, when provided with issue, he provides a concise report on how to solve the issue",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -33,7 +28,7 @@ llm_config_assistant = {
     ],
 }
 llm_config_proxy = {
-    "model":"gpt-3.5-turbo-0613",
+    "model":"gpt-4o",
     "temperature": 0,
     "config_list": config_list,
 }
@@ -82,18 +77,19 @@ class AutogenChat():
         return "Order status: delivered TERMINATE"
 
     # Define Agent-specific Functions
-    def ask_expert(message: str) -> str:
+    def ask_expert(self, message: str) -> str:
         assistant_for_expert = autogen.AssistantAgent(
             name="assistant_for_expert",
             llm_config={
                 "temperature": 0,
                 "config_list": config_list,
             },
-            system_message="You are the handyman Expert, you are an expert at everything regarding fixing samsung washers. When provided with issue, think of possible causes for the issue"
+            system_message="You are the handyman Expert, you are an expert at everything regarding fixing samsung washers. When provided with issue, think of possible causes for the issue. When you respond with the status add the word TERMINATE"
         )
         expert = autogen.UserProxyAgent(
             name="expert",
-            human_input_mode="ALWAYS",
+            human_input_mode="NEVER",
+            is_termination_msg=lambda x: x.get("content", "") and x.get("content", "").rstrip().endswith("TERMINATE"),
             code_execution_config=False,
             # Please set use_docker=True if docker is available to run the generated code. Using docker is safer than running the generated code directly.
         )
