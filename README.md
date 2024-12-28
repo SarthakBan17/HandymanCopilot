@@ -1,3 +1,3 @@
 # HandymanCopilot
 
-This is the main Dev branch of the HandymanCopilot, please create sub branchs to work on the code before pushing the changes to the branch
+This is the main Dev branch of the HandymanCopilot, the sub branch contains the main code
